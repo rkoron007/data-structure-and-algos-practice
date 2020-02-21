@@ -10,6 +10,16 @@
 //
 // Examples:
 
+function lucasNumber(n, memo = {}) {
+  if (n <= 0) return 2;
+  if (n === 1) return 1;
+  if (memo[n]) return memo[n];
+
+  memo[n] = lucasNumber(n - 1, memo) + lucasNumber(n - 2, memo);
+
+  return memo[n];
+}
+
 //
 // lucasNumber(0)   // => 2
 // lucasNumber(1)   // => 1
@@ -19,12 +29,6 @@
 // lucasNumber(9)   // => 76
 
 // O(nlogn)
-function lucasNumber(n) {
-  if (n === 0) return 2;
-  if (n === 1) return 1;
-
-  return lucasNumber(n - 1) + lucasNumber(n - 2);
-}
 
 // Write a function, sumArray(array), that takes in an array of numbers.
 // The function should return the total sum of the elements.
@@ -37,16 +41,13 @@ function lucasNumber(n) {
 // sumArray([5])            // => 5
 // sumArray([5, 2])         // => 7
 // sumArray([4, 10, -1, 2]) // => 15
-function sumArray(array) {
-  if (array.length === 0) {
-    return 0;
-  } else if (array.length === 1) {
-    return array[array.length - 1];
-  }
 
-  // 2 + sumArray([5])
-  let lastElement = array.pop();
-  return lastElement + sumArray(array);
+function sumArray(arr) {
+  if (arr.length === 0) return 0;
+
+  let currentEl = arr.pop();
+
+  return currentEl + sumArray(arr);
 }
 
 // Write a function, reverseString(str), that takes in a string.
@@ -60,11 +61,12 @@ function sumArray(array) {
 // reverseString("c")           // => "c"
 // reverseString("internet")    // => "tenretni"
 // reverseString("friends")     // => "sdneirf"
-function reverseString(str) {
-  if (str.length === 0) return str;
 
-  let lastCharacter = str.slice(str.length - 1, str.length);
-  return lastCharacter + reverseString(str.slice(0, str.length - 1));
+function reverseString(str) {
+  if (str.length === 0) return "";
+
+  let last = str.slice(-1);
+  return last + reverseString(str.slice(0, -1));
 }
 
 // Write a function, pow(base, exponent), that takes in two numbers.
@@ -84,13 +86,15 @@ function reverseString(str) {
 // pow(3, 4)    // => 81
 // pow(2, -5)   // => 0.03125
 
+// 2, 3
 function pow(base, exponent) {
   if (exponent === 0) return 1;
 
-  if (exponent < 0) {
-    return 1 / pow(base, Math.abs(exponent));
-  } else {
+  if (exponent >= 1) {
+    // 2
     return base * pow(base, exponent - 1);
+  } else {
+    return 1 / pow(base, Math.abs(exponent));
   }
 }
 
@@ -105,13 +109,22 @@ function pow(base, exponent) {
 //
 // Examples:
 //
-// array_1 = [1, 2, [[3, 4], [5, [6]]], [7, 8]]
-// flatten(array_1)      // => [ 1, 2, 3, 4, 5, 6, 7, 8 ]
+let array_1 = [
+  1,
+  2,
+  [
+    [3, 4],
+    [5, [6]]
+  ],
+  [7, 8]
+];
+
+// console.log(flatten(array_1)); // => [ 1, 2, 3, 4, 5, 6, 7, 8 ]
 //
 // array_2 = ['this', ['problem', 'is'], [['pretty', 'tough'], [[':)']]]]
 // flatten(array_2)      // => [ 'this', 'problem', 'is', 'pretty', 'tough', ':)' ]
 //
-// flatten('base case')  // => [ 'base case' ]
+// console.log(flatten("base case")); // => [ 'base case' ]
 //
 // Another Hint:
 //
@@ -123,70 +136,67 @@ function pow(base, exponent) {
 //     2-dimensional array: [['some data']]
 //     3-dimensional array: [[['some data']]]
 
-function flatten(data) {
-  if (!Array.isArray(data)) return [data];
-
-  let finalArr = [];
-
-  data.forEach(el => {
-    finalArr.push(...flatten(el));
+function flatten(arr) {
+  if (!Array.isArray(arr)) return [arr];
+  let finalArray = [];
+  arr.forEach(el => {
+    finalArray.push(...flatten(el));
   });
-
-  return finalArr;
+  return finalArray;
 }
 
+// flatten("some data");
 // Write a function, fileFinder(directories, targetFile), that accepts an object representing directories and a string respresenting a filename.
 // The function should return true, if the file is contained anywhere in the given directories.
 // Note that directory names will begin with '/', but file names will not.
 //
 // Example:
 //
-let desktop = {
-  "/images": {
-    "app_academy_logo.svg": null,
-    "/parks": {
-      "yosemite.jpeg": null,
-      "acadia.jpeg": null,
-      "yellowstone.png": null
-    }
-    //     "/pets": {
-    //       "trixie_lou.jpeg": null,
-    //       "rolo.jpeg": null,
-    //       "opal.jpeg": null,
-    //       "diana.jpeg": null
-    //     }
-    //   },
-    //   "/music": {
-    //     "hey_programmers.mp3": null,
-    //     "/genres": {
-    //       "/rock": {
-    //         "everlong.flac": null,
-    //         "livin_on_a_prayer.mp3": null
-    //       },
-    //       "/hip_hop": {
-    //         "express_yourself.wav": null,
-    //         "ny_state_of_mind.mp3": null
-    //       }
-    //     }
-  }
-};
+// let desktop = {
+//   "/images": {
+//     "app_academy_logo.svg": null,
+//     "/parks": {
+//       "yosemite.jpeg": null,
+//       "acadia.jpeg": null,
+//       "yellowstone.png": null
+//     }
+//     //     "/pets": {
+//     //       "trixie_lou.jpeg": null,
+//     //       "rolo.jpeg": null,
+//     //       "opal.jpeg": null,
+//     //       "diana.jpeg": null
+//     //     }
+//     //   },
+//     //   "/music": {
+//     //     "hey_programmers.mp3": null,
+//     //     "/genres": {
+//     //       "/rock": {
+//     //         "everlong.flac": null,
+//     //         "livin_on_a_prayer.mp3": null
+//     //       },
+//     //       "/hip_hop": {
+//     //         "express_yourself.wav": null,
+//     //         "ny_state_of_mind.mp3": null
+//     //       }
+//     //     }
+//   }
+// };
 
-function fileFinder(directories, targetFile) {
-  for (let dir in directories) {
-    if (
-      dir === targetFile ||
-      fileFinder(directories[dir], targetFile) === true
-    ) {
+// console.log(fileFinder(desktop, "app_academy_logo.svg")); // => true
+// console.log(fileFinder(desktop, "everlong.flac")); // => true
+// console.log(fileFinder(desktop, "sequoia.jpeg"));
+
+function fileFinder(directory, file) {
+  for (let dir in directory) {
+    if (dir === file) {
+      return true;
+    } else if (fileFinder(directory[dir], file)) {
       return true;
     }
   }
 
   return false;
 }
-
-// console.log(fileFinder(desktop, "app_academy_logo.svg")); // => true
-// console.log(fileFinder(desktop, "everlong.flac")); // => true
-// console.log(fileFinder(desktop, "sequoia.jpeg"));
 
 // Write another function, pathFinder(directories, targetFile), that returns the path that contains the targetFile.
 // If the targetFile is not found in the directories, then return null.
@@ -197,19 +207,28 @@ function fileFinder(directories, targetFile) {
 // pathFinder(desktop, 'trixie_lou.jpeg'));     // => '/images/pets/trixie_lou.jpeg'
 // pathFinder(desktop, 'everlong.flac'));       // => '/music/genres/rock/everlong.flac'
 // pathFinder(desktop, 'honeybadger.png'));     // => null
-function pathFinder(directories, targetFile) {
-  for (let dir in directories) {
-    if (dir === targetFile) {
-      return "/" + targetFile;
-    }
 
-    const folder = directories[dir];
-    let search = pathFinder(folder, targetFile);
-    if (search !== null) {
-      return dir + search;
+let desktop = {
+  "/images": {
+    "/parks": {
+      "app_academy_logo.svg": null,
+      "yosemite.jpeg": null,
+      "acadia.jpeg": null,
+      "yellowstone.png": null
     }
   }
+};
 
+console.log(pathFinder(desktop, "app_academy_logo.svg"));
+
+function pathFinder(directory, file) {
+  for (let dir in directory) {
+    if (dir === file) {
+      return "/" + file;
+    } else if (pathFinder(directory[dir], file)) {
+      return dir + pathFinder(directory[dir], file);
+    }
+  }
   return null;
 }
 

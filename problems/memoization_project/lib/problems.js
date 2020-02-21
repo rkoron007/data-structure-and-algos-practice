@@ -43,32 +43,7 @@ function lucasNumberMemo(n, memo = {}) {
 // minChange([1, 5, 10, 25], 100)   // => 4, because 25 + 25 + 25 + 25 = 100
 
 // [1, 2], 3)
-function minChange(coins, amount, memo = {}) {
-  // find all the combos
-  // A. Iterate through all the coins
-  // i. if coin is smaller than amount
-  // * count current coin and decrease total amount
-  // *. do a recursive call with decreased amount and current coins
-  //
-  // B.
-  if (amount <= 0) return 0;
-  if (memo[amount]) return memo[amount];
-
-  let numCoins = [];
-  for (let index = 0; index < coins.length; index++) {
-    //3, [1,2,3]
-    const currentCoin = coins[index]; // 1
-    if (currentCoin <= amount) {
-      // 1 < 3
-      // minChange returns a number
-      numCoins.push(minChange(coins, amount - currentCoin, memo) + 1); // [1,2,3], 2, {}
-    }
-  }
-
-  // return the best combo
-  memo[amount] = Math.min(...numCoins);
-  return memo[amount];
-}
+function minChange(coins, amount, memo = {}) {}
 
 module.exports = {
   lucasNumberMemo,
