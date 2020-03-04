@@ -64,6 +64,27 @@
   // I have the head, tail and length
 //  I take the old 
 function reverseLinkedList(linkedList) {
+  if (linkedList.length < 2) return linkedList;
+  // I have the head and the next value for the head
+
+  let oldHead = this.head;
+  let oldTail = this.tail;
+
+  this.head = oldTail;
+  this.head.next = oldTail.next;
+
+  this.tail = oldHead;
+  this.tail.next = null;
+
+  // let nodes = [];
+
+  // let cNode = this.head;
+  // while (cNode) {
+  //   nodes.push(cNode)
+  //   cNode = cNode.next;
+  // }
+
+
 
 
 }
