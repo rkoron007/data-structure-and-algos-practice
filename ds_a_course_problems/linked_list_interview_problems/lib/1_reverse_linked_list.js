@@ -65,28 +65,26 @@
 //  I take the old 
 function reverseLinkedList(linkedList) {
   if (linkedList.length < 2) return linkedList;
-  // I have the head and the next value for the head
 
-  let oldHead = this.head;
-  let oldTail = this.tail;
+  let node = linkedList.head;
+  let first = node;
+  let next = null;
+  let prev = null;
 
-  this.head = oldTail;
-  this.head.next = oldTail.next;
+  // while I can reassign the next var without next.var 
+  // being null (end of the list)
+  while (next = node.next) {
+    node.next = prev;
+    prev = node;
+    node = next;
+  }
 
-  this.tail = oldHead;
-  this.tail.next = null;
-
-  // let nodes = [];
-
-  // let cNode = this.head;
-  // while (cNode) {
-  //   nodes.push(cNode)
-  //   cNode = cNode.next;
-  // }
-
+  linkedList.tail = first;
+  linkedList.head = node;
+  linkedList.head.next = prev;
 
 
-
+  return linkedList;
 }
 
 // ----------------------------------------
