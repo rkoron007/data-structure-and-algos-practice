@@ -8,16 +8,14 @@
 const twoSum = (nums, target) => {
   let counter = {};
 
-  nums.forEach(num => {
-    let diff = target - num;
-    counter[diff] = true;
-  });
-
   for (let i = 0; i < nums.length; i++) {
-    if (counter[i]) return true;
+    let currentNum = nums[i];
+    let diff = target - currentNum; // 7
+    if (counter[currentNum]) return true;
+    counter[diff] = true;
   }
 
   return false;
 };
 
-console.log(twoSum([10, 15, 3, 7], 17));
+module.exports = twoSum;
