@@ -66,28 +66,31 @@
 
 
 const isLongPressedName = (name, typed) => {
-  const nameIndex = 0;
-  let nameLetter = name[nameIndex];
+  let nameIndex = 0;
   
   for (let typedIndex = 0; typedIndex < typed.length; typedIndex++) {
-    if (nameLetter === undefined) return false;
-    let typedLetter = typed[typedIndex];
-    if (nameLetter === typedLetter) {
+    if (name[nameIndex] === undefined) return false;
+    let typedLetter = typed[typedIndex]; // l
+
+    if (name[nameIndex] === typedLetter) {
       continue;
-    } else if (nameLetter !== typedLetter) {
-      nameIndex += 1;
-      if (nameLetter !== typedLetter) return false;
+    } else if (name[nameIndex] !== typedLetter) {
+      console.log(name[nameIndex])
+      nameIndex += 1; // l
+      if (name[nameIndex] !== typedLetter) return false;
     }   
   }
 
   return true;
 }
 
+// console.log(isLongPressedName("alex", "aaleex"))
 
 // "kikcxmvzi"
 // "kiikcxxmmvvzz"
 
-console.log(isLongPressedName("kikcxmvzi", "kiikcxxmmvvzz"))
+console.log(isLongPressedName("vzi", "vvzz"))
+
 // console.log(isLongPressedName("saeed", "ssaaedd"))
 // console.log(isLongPressedName("leelee", "lleeelee"))
 // console.log(isLongPressedName("laiden", "laiden"))
