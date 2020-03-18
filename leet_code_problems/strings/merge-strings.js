@@ -30,12 +30,11 @@ function mergeStrings(s1, s2) {
   const count2 = hashCounter(arr2);
   let result = "";
 
-  while (arr1.length > 0 && arr2.length > 0) {
+  while (arr1.length !== 0 && arr2.length !== 0) {
     let letter1 = arr1[0];
     let occur1 = count1[letter1];
     let letter2 = arr2[0];
     let occur2 = count2[letter2];
-    console.log(arr2.length)
 
     if (occur1 > occur2) {
       result += letter2
@@ -55,7 +54,7 @@ function mergeStrings(s1, s2) {
     }
   }
 
-  return result;
+  return result + arr1.join("") + arr2.join("");
 }
 
 function hashCounter (arr) {
