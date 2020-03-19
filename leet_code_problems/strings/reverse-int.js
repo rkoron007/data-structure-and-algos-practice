@@ -18,4 +18,3 @@ function reverse (int) {
   return revInt;
 }
 
-console.log(reverse(1534236469));
