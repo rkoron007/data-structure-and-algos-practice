@@ -2,6 +2,7 @@
 
 const checkPerms = (str1, str2) => {
   if (str1.length !== str2.length) return false;
+
   let counter = hashCounter(str1);
 
   for (let i = 0; i < str2.length; i++) {
