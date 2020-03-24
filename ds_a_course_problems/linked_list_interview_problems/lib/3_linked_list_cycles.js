@@ -11,12 +11,12 @@
 //
 // ------------
 // Constraints:
-// ------------ 
+// ------------
 //
 // (1) Your function must run in linear time, O(n).
 // (2) Your function must use constant space, O(1).
 // (3) Do not mutate the linked list or it's nodes in any way.
-// 
+//
 // ------------
 // Explanation:
 // ------------
@@ -24,11 +24,11 @@
 // In general, we assume that a linked list is said to "terminate" at it's tail.
 // This means that the linked list's tail should have a next pointer that points
 // to null. For example:
-// 
+//
 //                           A → B → C → D → E → null
-// 
+//
 // A "cycle" occurs when there exists a node in the list whose next pointer
-// points to a node that appeard previously in the list. Traversing a cyclical
+// points to a node that appeared previously in the list. Traversing a cyclical
 // list results in an infinite loop, where one visits the same nodes (those
 // LinkedIn to the cycle...see what I did there? :P) again and again.
 //
@@ -41,7 +41,7 @@
 //                         A → B → C
 //                             ↑   ↓
 //                             E ← D
-// 
+//
 // const linkedList = new LinkedList();
 // let secondNode;
 //
@@ -60,10 +60,18 @@
 // Let's code!
 // -----------
 function hasCycle(linkedList) {
-  // TODO: Implement the hasCycle function!
+  let pointer1 = linkedList.head;
+  let pointer2 = linkedList.head;
+  let pause = true;
 
+  while ((pointer2 = pointer2.next)) {
+    if (pointer1 === pointer2) return true;
+    pointer1 = pause ? pointer1 : pointer1.next;
+    pause = !pause;
+  }
+
+  return false;
 }
-
 
 // ----------------------------------------
 // Given: Singly Linked List - Do Not Edit!
