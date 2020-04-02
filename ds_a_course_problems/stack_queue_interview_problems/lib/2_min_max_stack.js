@@ -136,9 +136,6 @@ class MinMaxStack extends Stack {
 
 let minMax = new MinMaxStack();
 
-minMax.push(1);
-console.log(minMax.max());
-
 // Forgetting something down here?
 module.exports = {
   Node,
