@@ -6,15 +6,15 @@
 // Prompt:
 // -------
 //
-// Modify the definition of the Stack class provided to create an enhanced 
+// Modify the definition of the Stack class provided to create an enhanced
 // version of a Stack data structure called MinMaxStack.
 //
 // A MinMaxStack has all of the same behavior as a Stack, but can also return
 // the node with the minimum or maximum value in constant time.
 //
-// You may alter any of the original Stack's methods, including the 
+// You may alter any of the original Stack's methods, including the
 // constructor.
-//  
+//
 // Values of nodes of the MinMaxStack are always guaranteed to be numbers.
 //
 //
@@ -65,51 +65,83 @@
 // Let's code!
 // -----------
 class Node {
-    constructor(val) {
-        this.value = val;
-        this.next = null;
-    }
+  constructor(val, minValNode = this, maxValNode = this) {
+    this.value = val;
+    this.next = null;
+    this.minValNode = minValNode;
+    this.maxValNode = maxValNode;
+  }
 }
 
 // Refactor the regular Stack below into a MinMaxStack!
 class Stack {
-    constructor() {
-        this.top = null;
-        this.bottom = null;
-        this.length = 0;
-    }
+  constructor() {
+    this.top = null;
+    this.bottom = null;
+    this.length = 0;
+  }
 
-    push(val) {
-        const newNode = new Node(val);
-        if (!this.top) {
-            this.top = newNode;
-            this.bottom = newNode;
-        } else {
-            const temp = this.top;
-            this.top = newNode;
-            this.top.next = temp;
-        }
-        return ++this.length;
+  push(val) {
+    const newNode = new Node(val);
+    if (!this.top) {
+      this.top = newNode;
+      this.bottom = newNode;
+    } else {
+      const temp = this.top;
+      this.top = newNode;
+      if (temp.minValNode.value < newNode.value) {
+        newNode.minValNode = temp.minValNode;
+      }
+      if (temp.maxValNode.value > newNode.value) {
+        newNode.maxValNode = temp.maxValNode;
+      }
+      this.top.next = temp;
     }
+    return ++this.length;
+  }
 
-    pop() {
-        if (!this.top) {
-            return null;
-        }
-        const temp = this.top;
-        if (this.top === this.bottom) {
-            this.bottom = null;
-        }
-        this.top = this.top.next;
-        this.length--;
-        return temp.value;
+  pop() {
+    if (!this.top) {
+      return null;
     }
+    const temp = this.top;
+    if (this.top === this.bottom) {
+      this.bottom = null;
+    }
+    this.top = this.top.next;
+    this.length--;
+    return temp;
+  }
 
-    size() {
-        return this.length;
-    }
+  size() {
+    return this.length;
+  }
 }
 
-// Forgetting something down here? 
-exports.Node = Node;
-exports.Stack = Stack;
+class MinMaxStack extends Stack {
+  constructor() {
+    super();
+  }
+
+  min() {
+    if (!this.size()) return null;
+    return this.top.minValNode;
+  }
+
+  max() {
+    if (!this.size()) return null;
+    return this.top.maxValNode;
+  }
+}
+
+let minMax = new MinMaxStack();
+
+minMax.push(1);
+console.log(minMax.max());
+
+// Forgetting something down here?
+module.exports = {
+  Node,
+  Stack,
+  MinMaxStack
+};
