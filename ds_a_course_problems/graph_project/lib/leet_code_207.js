@@ -1,60 +1,44 @@
-// View the full problem and run the test cases at:
-//  https://leetcode.com/problems/course-schedule/
-
-// intakes the number of courses allowed
-// prerequisites is a graph of edges
-
-function addedToVisits(coursePair, visited) {
-  coursePair.forEach((course) => {
-    if (visited.has(course)) return false;
-    visited.add(course);
-  });
-  return true;
-}
-
 function makeAdjList(array) {
-  let list = {};
-  array.forEach((pair) => {
-    let [course, value] = pair.map(String);
+  let preReqs = {};
 
-    if (list[course]) {
-      list[course].push(value);
+  array.forEach((courseSet) => {
+    let [course, pre] = courseSet.map(String);
+
+    if (course in preReqs) {
+      preReqs[course].push(pre);
     } else {
-      list[course] = [value];
+      preReqs[course] = [pre];
     }
 
-    if (!list[value]) list[value] = [];
+    if (!(pre in preReqs)) preReqs[pre] = [];
   });
 
-  return list;
+  return preReqs;
 }
 
-function canFinish(numCourses, prerequisites) {
-  // if (!prerequisites.length) return true;
-
+function canFinish(posNumCourses, prerequisites) {
+  let preGraph = makeAdjList(prerequisites);
+  let totalNumCourses = Object.keys(preGraph).length;
   let completed = new Set();
 
-  let preReq = makeAdjList(prerequisites);
-  let totalCourses = Object.keys(preReq).length;
-  let eliCourse = true;
+  let canAddCourse = true;
 
-  while (eliCourse) {
-    eliCourse = false;
-    for (let course in preReq) {
-      let hasEveryPreMet = preReq[course].every((pre) => completed.has(pre));
-
-      if (!completed.has(course) && hasEveryPreMet) {
+  while (canAddCourse) {
+    canAddCourse = false;
+    for (course in preGraph) {
+      // if all the prereqs for a course are completed I can add to my graph
+      // only if this course isn't already in my graph
+      if (completed.has(course)) continue;
+      if (
+        preGraph[course].every((preReqCourse) => completed.has(preReqCourse))
+      ) {
         completed.add(course);
-        eliCourse = true;
+        canAddCourse = true;
       }
     }
   }
 
-  return completed.length === totalCourses;
+  return completed.size === totalNumCourses;
 }
 
-let numCourses = 2,
-  prerequisites = [[1, 0]];
-
-console.log(makeAdjList(prerequisites));
-// console.log(canFinish(numCourses, prerequisites));
+console.log(canFinish(2, [[1, 0]]));
