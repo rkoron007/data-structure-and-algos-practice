@@ -10,67 +10,59 @@ class Trie {
     this.root = new Node();
   }
 
-  insertRecur(str, root = this.root) {
-    let letter = str[0];
+  insertRecur(word, root = this.root) {
+    let letter = word[0];
 
-    // will set the last letter in the word
     if (!letter) {
       root.isTerminal = true;
       return;
     }
 
-    // if I don't have this letter add a new node
     if (!(letter in root.children)) {
       root.children[letter] = new Node();
     }
-
-    // move on in my string with my new node
-    this.insertRecur(str.slice(1), root.children[letter]);
+    this.insertRecur(word.slice(1), root.children[letter]);
   }
 
   insertIter(word) {
     let root = this.root;
+
     for (let i = 0; i < word.length; i++) {
-      let letter = word[i];
+      const letter = word[i];
+
       if (!(letter in root.children)) {
         root.children[letter] = new Node();
       }
-
       root = root.children[letter];
     }
 
     root.isTerminal = true;
   }
 
-  searchRecur(str, root = this.root) {
-    // 1. if this is the end of the word
-    // 1. return true if the node is terminal or false if not
-    // 2. if this is any other point in teh word
-    let letter = str[0];
+  searchRecur(word, root = this.root) {
+    let letter = word[0];
 
-    // end of word
     if (!letter) {
-      // if this root is terminal the word is in my tree
       if (root.isTerminal) return true;
       return false;
     }
 
-    // otherwise I have a word:
-    // A. if this letter in is the root's children we
-    // recursively slicing off this letter
     if (letter in root.children) {
-      return this.searchRecur(str.slice(1), root.children[letter]);
+      return this.searchRecur(word.slice(1), root.children[letter]);
     } else {
       return false;
     }
   }
 
-  searchIter(str) {
+  searchIter(word) {
     let root = this.root;
-    for (let i = 0; i < str.length; i++) {
-      let letter = str[i];
 
-      if (!(letter in root.children)) return false;
+    for (let i = 0; i < word.length; i++) {
+      const letter = word[i];
+      if (!(letter in root.children)) {
+        return false;
+      }
+
       root = root.children[letter];
     }
 
@@ -78,21 +70,19 @@ class Trie {
   }
 
   wordsWithPrefix(prefix, root = this.root) {
-    if (!prefix.length) {
-      let allWords = [];
-      if (root.isTerminal) allWords.push("");
+    if (!prefix) {
+      let allSuff = [];
+      if (root.isTerminal) allSuff.push("");
 
       for (let letter in root.children) {
         let child = root.children[letter];
+        let suffixes = this.wordsWithPrefix(prefix, child);
 
-        let wordCombos = this.wordsWithPrefix(prefix, child);
-
-        let fullWords = wordCombos.map((suffix) => letter + suffix);
-
-        allWords.push(...fullWords);
+        let words = suffixes.map((suffix) => letter + suffix);
+        allSuff.push(...words);
       }
 
-      return allWords;
+      return allSuff;
     } else {
       let letter = prefix[0];
       let child = root.children[letter];
@@ -102,20 +92,17 @@ class Trie {
       } else {
         let suffixes = this.wordsWithPrefix(prefix.slice(1), child);
 
-        let words = suffixes.map((suff) => letter + suff);
+        let words = suffixes.map((suffix) => letter + suffix);
         return words;
       }
     }
   }
 }
 
-let myT = new Trie();
-
-myT.insertRecur("tea");
-myT.insertRecur("ten");
-myT.insertRecur("tek");
-
-console.log(myT.wordsWithPrefix(""));
+let trie = new Trie();
+trie.insertRecur("ten");
+trie.insertRecur("tea");
+console.log(trie.wordsWithPrefix("te"));
 
 // console.log(myT);
 
