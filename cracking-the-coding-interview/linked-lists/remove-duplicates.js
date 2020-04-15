@@ -55,7 +55,7 @@ class LinkedList {
   }
 
   // this function will remove duplicates from a LL
-  removeDuplicates() {
+  removeDuplicatesHash() {
     let currentNode = this.head;
     let uniqueEls = {};
     let prev;
@@ -70,6 +70,26 @@ class LinkedList {
         prev = currentNode;
       }
       currentNode = currentNode.next;
+    }
+  }
+
+  removeDuplicates() {
+    let current = this.head;
+
+    while (current) {
+      let runner = current;
+      while (runner.next) {
+        if (runner.next.value === current.value) {
+          runner.next = runner.next.next;
+          if (!runner.next) {
+            this.tail = runner;
+          }
+          this.length--;
+        } else {
+          runner = runner.next;
+        }
+      }
+      current = current.next;
     }
   }
 }
