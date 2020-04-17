@@ -94,12 +94,4 @@ class LinkedList {
   }
 }
 
-let l = new LinkedList();
-l.insert("a");
-l.insert("c");
-l.insert("b");
-l.insert("a");
-l.insert("a");
-
-l.removeDuplicates();
-console.log(l);
+module.exports = { LinkedList, Node };
