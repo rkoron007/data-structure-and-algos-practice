@@ -1,7 +1,6 @@
 function longestCommonPrefix(array) {
   let longestPrefix = "";
   if (!array.length) return longestPrefix;
-  if (array.length < 2) return array[0];
   let firstWord = array[0];
   let lastWordIdx = array.length - 1;
   for (let i = 0; i < firstWord.length; i++) {
