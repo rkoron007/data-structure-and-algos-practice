@@ -1,5 +1,5 @@
 class Node {
-  constructor(value, next = null) {
+  constructor(value = 0, next = null) {
     this.value = value;
     this.next = next;
   }
@@ -47,7 +47,7 @@ class LinkedList {
     }
 
     this.length -= 1;
-    return oldTail.val;
+    return oldTail.value;
   }
 
   size() {
